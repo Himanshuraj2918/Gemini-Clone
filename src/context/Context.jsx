@@ -18,6 +18,7 @@ const ContextProvider = ({ children }) => {
         setResultData("");
         setLoading(true);
         setShowResult(true);
+        setRecentPrompts(input);
         const response = await generateContentStream(input);
         setResultData(response);
         setLoading(false);
