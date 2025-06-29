@@ -1,9 +1,29 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Sidebar.css'
 import { assets } from '../../assets/assets'
+import { Context } from '../../context/Context';
 const Sidebar = () => {
 
   const [extended, setextended] = useState(false);
+  const {onSent,previousPrompts,setPreviousPrompts,setFullChat,setOldChatIsOpen,setCurrentSessionId} = useContext(Context)
+
+  useEffect(()=>{
+    const saved = localStorage.getItem('chatSessions');
+    setPreviousPrompts( saved ? JSON.parse(saved) : []);
+  },[])
+
+  const handleChatClick = (session)=>{
+    setOldChatIsOpen(true)
+    setFullChat(session.messages);
+    setCurrentSessionId(session.id);
+  }
+
+  const handleNewChat = () => {
+    setOldChatIsOpen(false);
+    setCurrentSessionId("");
+    setFullChat([]);
+  }
+
   return (
     <div className='sidebar'>
       <div className="top">
@@ -13,17 +33,28 @@ const Sidebar = () => {
           src={assets.menu_icon} 
           alt="Menu" 
         />
-        <div className="new-chat">
+        <div className="new-chat" onClick={handleNewChat}>
           <img src={assets.plus_icon} alt="Add Chat" />
           {extended && <p>New Chat</p>}
         </div>
         {extended &&
           <div className="recent">
             <p className="recent-title">Recent</p>
-            <div className="recent-entry">
-              <img src={assets.message_icon} alt="" />
-              <p>What is react ...</p>
-            </div>
+            {
+              previousPrompts.map((session, index) => {
+                const firstUserInput = session.messages[0]?.userInput || "No user input";
+                const preview = firstUserInput.split(' ').slice(0, 3).join(' ');
+                const displayText = firstUserInput.split(' ').length > 3 ? preview + '...' : preview;
+                
+                return (
+                  <div onClick={()=>handleChatClick(session)} className="recent-entry" key={index} >
+                    <img src={assets.message_icon} alt="" />
+                    <p>{displayText}</p>
+                  </div>
+                );
+              })
+            }
+           
           </div>
         }
 

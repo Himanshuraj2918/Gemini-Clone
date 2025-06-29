@@ -21,7 +21,7 @@ const Main = () => {
                 <img src={assets.user_icon} alt="user" />
             </div>
             <div className="main-container">
-                {!showResult
+                {!fullChat.length > 0
                     ?
                     <>
                         <div className="greet">
