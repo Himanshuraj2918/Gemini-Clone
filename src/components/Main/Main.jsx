@@ -2,6 +2,7 @@ import React from 'react'
 import './Main.css'
 import { assets } from '../../assets/assets'
 import { Context } from '../../context/Context'
+import OutputModel from './OutputModel'
 const Main = () => {
     const {
         onSent,
@@ -10,8 +11,8 @@ const Main = () => {
         loading,
         resultData,
         input,
-        setInput
-
+        setInput,
+        fullChat
     } = React.useContext(Context);
     return (
         <div className="main">
@@ -47,25 +48,42 @@ const Main = () => {
                         </div>
                     </>
                     :
-                    <div className='result'>
-                        <div className="result-title">
-                            <img src={assets.user_icon} alt="" />
-                            <p>{recentprompts}</p>
+                    <>
+                     <div className='result' >
+                        {
+                            fullChat.length > 0 && fullChat.map((chat, index) => (
+                                <div key={index}>
+                                    <div className="result-title">
+                                        <img src={assets.user_icon} alt="" />
+                                        <p>{chat.userInput}</p>
+                                    </div>
+                                    <div className="result-data">
+                                        <img src={assets.gemini_icon} alt="" />
+                                        <OutputModel content={chat.content} />
+                                    </div>
+                                </div>
+                            ))
+                        }
                         </div>
-                        <div className="result-data">
-                            <img src={assets.gemini_icon} alt="" />
-                            {loading ?
-                            <div className="loader">
-                                <hr />
-                                <hr />
-                                <hr />
+                        {
+                            loading &&
+                            <div className='result'>
+                            <div className="result-title">
+                                <img src={assets.user_icon} alt="" />
+                                <p>{recentprompts}</p>
                             </div>
-                            :
-                            <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
-                            }
-                            
-                        </div>
-                    </div>
+                            <div className="result-data">
+                                <img src={assets.gemini_icon} alt="" />
+                                    <div className="loader">
+                                        <hr />
+                                        <hr />
+                                        <hr />
+                                    </div>
+
+                            </div>
+                            </div>
+                        }
+                    </>
                 }
 
 
