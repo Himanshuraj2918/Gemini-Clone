@@ -33,14 +33,12 @@ const ContextProvider = ({ children }) => {
             );
             
             if (sessionIndex !== -1) {
-              console.log(`Updating session with ID: ${currentSessionId}`);
               sessions[sessionIndex] = {
                 id: currentSessionId,
                 messages: fullChat
               };
             }
           } else {
-            // Create new session with ID
             const newSession = {
               id: Date.now().toString(),
               messages: fullChat

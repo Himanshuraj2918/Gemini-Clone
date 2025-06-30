@@ -190,3 +190,35 @@ line-height: 2;
         background-position: 800px 0px;
     }
 }
+
+@media (max-width: 600px) {
+
+    .main .greet{
+        font-size: 30px;
+    }
+
+    .main .card{
+        height: 100px;
+    }
+
+    .main-bottom input{
+        flex:none;
+        width: 200px;
+    }
+
+    .main-bottom img{
+        width: 20px;
+    }
+
+    .search-box{
+        padding: 5px 10px;
+    }
+
+    .search-box div{
+        gap:5px
+    }
+
+    .cards{
+        margin-bottom: 20px;
+    }
+}
